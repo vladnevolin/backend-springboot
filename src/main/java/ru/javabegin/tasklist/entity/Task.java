@@ -3,7 +3,6 @@ package ru.javabegin.tasklist.entity;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
-import java.util.Objects;
 
 @Entity
 public class Task {
@@ -20,18 +19,12 @@ public class Task {
     @Basic
     @Column(name = "date")
     private Timestamp date;
-    @Basic
-    @Column(name = "priority_id")
-    private Long priorityId;
-    @Basic
-    @Column(name = "category_id")
-    private Long categoryId;
     @ManyToOne
     @JoinColumn(name = "priority_id", referencedColumnName = "id")
-    private Priority priorityByPriorityId;
+    private Priority priority;
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private Category categoryByCategoryId;
+    private Category category;
 
     public Long getId() {
         return id;
@@ -49,19 +42,11 @@ public class Task {
         return date;
     }
 
-    public Long getPriorityId() {
-        return priorityId;
+    public Priority getPriority() {
+        return priority;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public Priority getPriorityByPriorityId() {
-        return priorityByPriorityId;
-    }
-
-    public Category getCategoryByCategoryId() {
-        return categoryByCategoryId;
+    public Category getCategory() {
+        return category;
     }
 }
