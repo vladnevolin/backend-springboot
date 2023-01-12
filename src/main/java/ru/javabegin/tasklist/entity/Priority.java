@@ -5,9 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Collection;
-import java.util.Objects;
-
 @Entity
 @NoArgsConstructor
 @Setter
@@ -18,10 +15,10 @@ public class Priority {
     @Column(name = "id")
     private Long id;
     @Basic
-    @Column(name = "title", length = 45)
+    @Column(name = "title")
     private String title;
     @Basic
-    @Column(name = "color", length = 45)
+    @Column(name = "color")
     private String color;
 
     public Long getId() {

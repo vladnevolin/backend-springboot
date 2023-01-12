@@ -2,7 +2,7 @@ package ru.javabegin.tasklist.entity;
 
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 public class Task {
@@ -11,14 +11,14 @@ public class Task {
     @Column(name = "id")
     private Long id;
     @Basic
-    @Column(name = "title", length = 100)
+    @Column(name = "title")
     private String title;
     @Basic
     @Column(name = "completed")
     private Integer completed;
     @Basic
     @Column(name = "date")
-    private Timestamp date;
+    private Date date;
     @ManyToOne
     @JoinColumn(name = "priority_id", referencedColumnName = "id")
     private Priority priority;
@@ -38,7 +38,7 @@ public class Task {
         return completed;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
