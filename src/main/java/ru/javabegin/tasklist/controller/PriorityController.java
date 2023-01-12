@@ -19,10 +19,11 @@ public class PriorityController {
     }
 
     @GetMapping("/test")
-    public void test(){
+    public List<Priority> test(){
 
         List<Priority> list = priorityRepository.findAll();
-        System.out.println("list =" + list);
+
+        return list;
 
     }
 }
