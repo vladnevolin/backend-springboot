@@ -1,8 +1,6 @@
 package ru.javabegin.tasklist.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.javabegin.tasklist.entity.Priority;
 import ru.javabegin.tasklist.repo.PriorityRepository;
 
@@ -24,6 +22,12 @@ public class PriorityController {
         List<Priority> list = priorityRepository.findAll();
 
         return list;
+
+    }
+
+    @PostMapping("/add")
+    public Priority add(@RequestBody Priority priority){
+        return priorityRepository.save(priority);
 
     }
 }
