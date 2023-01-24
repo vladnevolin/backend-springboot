@@ -1,7 +1,10 @@
 package ru.javabegin.tasklist.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.javabegin.tasklist.entity.Category;
+import ru.javabegin.tasklist.entity.Priority;
 import ru.javabegin.tasklist.repo.CategoryRepository;
 
 import java.util.List;
@@ -28,9 +31,42 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public Category add(@RequestBody Category category){
-        return categoryRepository.save(category);
+    public ResponseEntity<Category> add(@RequestBody Category category){
+
+        //проверка на обязательные параметры
+        if (category.getId() != null && category.getId() != 0) {
+            //передавать id нельзя, он выдается автоматически
+            return new ResponseEntity( "redudant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
+
+        }
+
+        //если передется пустое значение title
+        if (category.getId() == null || category.getTitle().trim().length() == 0){
+            return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        return ResponseEntity.ok(categoryRepository.save(category));
 
     }
 
+
+    @PutMapping("/update")
+    public ResponseEntity update(@RequestBody Category category) {
+
+        if (category.getId() == null && category.getId() != 0) {
+            //передавать id нельзя, он выдается автоматически
+            return new ResponseEntity("redudant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
+
+        }
+
+        //если передется пустое значение title
+        if (category.getId() == null || category.getTitle().trim().length() == 0) {
+            return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        // save работает ка на добавление, так и на обновление
+        return ResponseEntity.ok(categoryRepository.save(category));
+    }
+    
+    
 }

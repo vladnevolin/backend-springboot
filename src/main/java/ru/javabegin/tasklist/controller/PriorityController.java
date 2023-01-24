@@ -30,11 +30,14 @@ public class PriorityController {
     @PostMapping("/add")
     public ResponseEntity<Priority> add(@RequestBody Priority priority){
 
+        //проверка на обязательные параметры
         if (priority.getId() != null && priority.getId() != 0) {
+            //передавать id нельзя, он выдается автоматически
             return new ResponseEntity( "redudant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
 
         }
 
+        //если передется пустое значение title
         if (priority.getId() == null || priority.getTitle().trim().length() == 0){
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
         }
@@ -42,4 +45,25 @@ public class PriorityController {
         return ResponseEntity.ok(priorityRepository.save(priority));
 
     }
+
+
+    @PutMapping("/update")
+    public ResponseEntity update(@RequestBody Priority priority) {
+
+        if (priority.getId() == null && priority.getId() != 0) {
+            //передавать id нельзя, он выдается автоматически
+            return new ResponseEntity("redudant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
+
+        }
+
+        //если передется пустое значение title
+        if (priority.getId() == null || priority.getTitle().trim().length() == 0) {
+            return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        // save работает ка на добавление, так и на обновление
+        return ResponseEntity.ok(priorityRepository.save(priority));
+    }
+
+
 }
