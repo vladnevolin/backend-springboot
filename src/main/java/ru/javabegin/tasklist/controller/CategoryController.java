@@ -37,7 +37,6 @@ public class CategoryController {
         if (category.getId() != null && category.getId() != 0) {
             //передавать id нельзя, он выдается автоматически
             return new ResponseEntity( "redudant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
-
         }
 
         //если передется пустое значение title
@@ -56,7 +55,6 @@ public class CategoryController {
         if (category.getId() == null && category.getId() != 0) {
             //передавать id нельзя, он выдается автоматически
             return new ResponseEntity("redudant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
-
         }
 
         //если передется пустое значение title
@@ -66,6 +64,7 @@ public class CategoryController {
 
         // save работает ка на добавление, так и на обновление
         return ResponseEntity.ok(categoryRepository.save(category));
+
     }
     
     

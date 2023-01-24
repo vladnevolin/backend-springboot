@@ -53,7 +53,6 @@ public class PriorityController {
         if (priority.getId() == null && priority.getId() != 0) {
             //передавать id нельзя, он выдается автоматически
             return new ResponseEntity("redudant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
-
         }
 
         //если передется пустое значение title
@@ -61,8 +60,14 @@ public class PriorityController {
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
         }
 
+        //если передется пустое значение color
+        if (priority.getColor() == null || priority.getColor().trim().length() == 0) {
+            return new ResponseEntity("missed param: color", HttpStatus.NOT_ACCEPTABLE);
+        }
+
         // save работает ка на добавление, так и на обновление
         return ResponseEntity.ok(priorityRepository.save(priority));
+
     }
 
 
