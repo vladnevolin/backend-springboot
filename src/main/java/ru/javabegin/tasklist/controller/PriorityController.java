@@ -1,12 +1,15 @@
 package ru.javabegin.tasklist.controller;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.javabegin.tasklist.entity.Category;
 import ru.javabegin.tasklist.entity.Priority;
 import ru.javabegin.tasklist.repo.PriorityRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping ("/priority")
@@ -18,12 +21,10 @@ public class PriorityController {
         this.priorityRepository = priorityRepository;
     }
 
-    @GetMapping("/test")
-    public List<Priority> test(){
+    @GetMapping("/all")
+    public List<Priority> findAll() {
 
-        List<Priority> list = priorityRepository.findAll();
-
-        return list;
+        return priorityRepository.findAllByOrderByIdAsc();
 
     }
 
@@ -68,6 +69,35 @@ public class PriorityController {
         // save работает ка на добавление, так и на обновление
         return ResponseEntity.ok(priorityRepository.save(priority));
 
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Priority> findById(@PathVariable Long id) {
+
+        Priority priority = null;
+
+        try {
+            priority = priorityRepository.findById(id).get();
+        } catch (NoSuchElementException e) { //если объект не будет найдет
+            e.printStackTrace();
+            return new ResponseEntity("id " + id + " not found", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        return ResponseEntity.ok(priority);
+
+    }
+    //параметр id передается не в BODY запроса, а в URl
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+
+        try{
+            priorityRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException e) {
+            e.printStackTrace();
+            return new ResponseEntity("id " +id+ " not found", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        return new ResponseEntity(HttpStatus.OK); //не возвращаем удаленный объект
     }
 
 
