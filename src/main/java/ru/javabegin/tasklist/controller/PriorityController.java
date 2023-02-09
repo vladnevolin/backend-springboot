@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.javabegin.tasklist.entity.Category;
 import ru.javabegin.tasklist.entity.Priority;
 import ru.javabegin.tasklist.repo.PriorityRepository;
+import ru.javabegin.tasklist.search.PrioritySearchValues;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -98,6 +99,12 @@ public class PriorityController {
         }
 
         return new ResponseEntity(HttpStatus.OK); //не возвращаем удаленный объект
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<Priority>> search(@RequestBody PrioritySearchValues prioritySearchValues){
+
+        return ResponseEntity.ok(priorityRepository.findByTitle(prioritySearchValues.getText()));
     }
 
 
