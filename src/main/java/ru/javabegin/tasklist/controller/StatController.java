@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javabegin.tasklist.entity.Stat;
 import ru.javabegin.tasklist.repo.StatRepository;
+import ru.javabegin.tasklist.util.MyLogger;
 
 @RestController
 public class StatController {
@@ -23,6 +24,8 @@ public class StatController {
     // для статистики всегдла получает только  одну строку  с id=1 (согласно таблице БД)
     @GetMapping("/stat")
     public ResponseEntity<Stat> findById() {
+
+        MyLogger.showMethodName("StatController: stat() -----------------------------------------------------------------------------------------");
 
         // можно не использовать ResponseEntity, а просто вернуть коллекцию, код все равно будет 200
         return ResponseEntity.ok(statRepository.findById(defaultId).get());

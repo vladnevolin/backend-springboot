@@ -1,6 +1,5 @@
 package ru.javabegin.tasklist.controller;
 
-import com.fasterxml.jackson.core.PrettyPrinter;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.javabegin.tasklist.entity.Category;
 import ru.javabegin.tasklist.repo.CategoryRepository;
 import ru.javabegin.tasklist.search.CategorySearchValues;
+import ru.javabegin.tasklist.util.MyLogger;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -29,12 +29,16 @@ public class CategoryController {
     @GetMapping("/all")
     public List<Category> findAll() {
 
+        MyLogger.showMethodName("CategoryController: all() -----------------------------------------------------------------------------------------");
+
         return categoryRepository.findAllByOrderByTitleAsc();
 
     }
 
     @PostMapping("/add")
     public ResponseEntity<Category> add(@RequestBody Category category){
+
+        MyLogger.showMethodName("CategoryController: add() -----------------------------------------------------------------------------------------");
 
         //проверка на обязательные параметры
         if (category.getId() != null && category.getId() != 0) {
@@ -55,6 +59,8 @@ public class CategoryController {
     @PutMapping("/update")
     public ResponseEntity update(@RequestBody Category category) {
 
+        MyLogger.showMethodName("CategoryController: update() -----------------------------------------------------------------------------------------");
+
         if (category.getId() == null && category.getId() != 0) {
             //передавать id нельзя, он выдается автоматически
             return new ResponseEntity("redudant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
@@ -73,6 +79,8 @@ public class CategoryController {
     @GetMapping("/id/{id}")
     public ResponseEntity<Category> findById(@PathVariable Long id) {
 
+        MyLogger.showMethodName("CategoryController: id() -----------------------------------------------------------------------------------------");
+
         Category category = null;
 
         try{
@@ -89,6 +97,8 @@ public class CategoryController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
 
+        MyLogger.showMethodName("CategoryController: delete() -----------------------------------------------------------------------------------------");
+
         try{
             categoryRepository.deleteById(id);
         }catch (EmptyResultDataAccessException e) {
@@ -103,6 +113,8 @@ public class CategoryController {
     // поиск по любым параметрам CategorySearchValues
     @PostMapping("/search")
     public ResponseEntity<List<Category>> search(@RequestBody CategorySearchValues categorySearchValues){
+
+        MyLogger.showMethodName("CategoryController: search() -----------------------------------------------------------------------------------------");
 
         // если вместо текста будет пусто или null - вернутся все категории
         return ResponseEntity.ok(categoryRepository.findByTitle(categorySearchValues.getText()));
